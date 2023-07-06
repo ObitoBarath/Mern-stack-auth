@@ -81,7 +81,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 //routes GET /api/users/profile
 //@access private
 const getUserProfile = asyncHandler(async (req, res) => {
-    res.status(200).json({message: "User Profile"})
+     res.status(200).json({message: "User Profile"})
 });
 
 //@desc Auth user
