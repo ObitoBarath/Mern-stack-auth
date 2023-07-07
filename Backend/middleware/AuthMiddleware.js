@@ -11,10 +11,13 @@ const protect = asyncHandler(async (req, res, next) => {
     console.log("tokens ==> ", tokens)
     if (tokens) {
         try {
-
             let decode = jwt.verify(tokens, process.env.JWT_SECURE);
-            req.user = await User.findById(decode.userId).select("-password")
-            next()
+            let newVar = await User.findById(decode.userId).select("-password");
+            console.log("new var ==> current logged in user  ==", newVar)
+            let {name, email, _id} = newVar
+            console.log("name and email ==>", name, email)
+            req.user = {name, email, _id}
+            next();
         } catch (err) {
             res.status(401)
             throw new Error("Not Authorized Invalid User")
@@ -23,8 +26,6 @@ const protect = asyncHandler(async (req, res, next) => {
         res.status(401);
         throw  new Error("Not Authorized , No Tokens")
     }
-
-
 })
 
 

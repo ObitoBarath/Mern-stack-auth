@@ -81,16 +81,35 @@ const logoutUser = asyncHandler(async (req, res) => {
 //routes GET /api/users/profile
 //@access private
 const getUserProfile = asyncHandler(async (req, res) => {
-     res.status(200).json({message: "User Profile"})
+    console.log("getUserProfile ")
+    let toArray = await User.collection.find({}).toArray()
+    console.log("to array ==>", toArray)
+    res.status(200).json(toArray)
+
 });
 
 //@desc Auth user
 //routes PUT  /api/users/profile
 //@access private
 const updateUserProfile = asyncHandler(async (req, res) => {
+    console.log("update user is called")
 
+    console.log("body ==>", req.body)
+    console.log("req ==>", req.user)
+    let user = await User.findById(req.user._id);
+    console.log("user ==>", user)
+    if (user) {
+        console.log("inside if ")
+        user.name = req.body["name"]
+        user.email = req.body["email"]
+        console.log("user value ==>", user.name, user.email)
+        let updatedUser = await user.save();
+        console.log("updated user ==>", updatedUser)
+        res.status(200).json(updatedUser)
+    } else {
+        res.status(400).json("Poda Patti")
+    }
 
-    res.status(200).json({message: "Update User profile "})
 })
 
 export {authUser, getUserProfile, logoutUser, registerUser, updateUserProfile}

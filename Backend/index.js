@@ -12,13 +12,14 @@ let app = express()
 
 let PORT = process.env.PORT;
 
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())
-app.use(cookieParser())
+//Major middlewares
+app.use(express.urlencoded({extended: true}))//TO PARSE DATA OF X-WWW-FORM-URLENCODED VALUES
+app.use(express.json())//to parse the json format values
+app.use(cookieParser())//to perform some actions with the cookies
 
 app.use('/api/users', userRoutes)
-app.use(notFound)
-app.use(errorHandler)
+app.use(notFound)//for not configured url requests
+app.use(errorHandler) // for sending error to postman
 
 
 app.listen(PORT, () => {
